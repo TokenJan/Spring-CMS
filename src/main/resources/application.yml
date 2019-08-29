@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    # 数据库连接池
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: sa
+    platform: h2
+    continue-on-error: true
+
+  h2:
+    # h2 web consloe 是一个数据库GUI管理应用，程序运行时，会自动启动h2 web consloe
+    console:
+      # 开启 h2 web console ，默认开启
+      enabled: true
+      # 可以通过 url/h2-console 访问 h2 web
+      path: /h2-console
+      settings:
+        # 配置后 h2 web console 就可以在远程访问，否则只能在本机访问
+        web-allow-others: true
+
+logging.level.org.springframework.orm.jpa: debug
+
+
+
+
