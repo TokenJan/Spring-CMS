@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.cms.command.ContentStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -19,13 +20,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @EqualsAndHashCode
+@NoArgsConstructor
 public class ContentVersion {
 
     @Id
@@ -39,6 +40,8 @@ public class ContentVersion {
 
     private Long version;
 
+    private String name;
+
     @Enumerated(value = EnumType.STRING)
     private ContentStatus status;
 
@@ -48,9 +51,37 @@ public class ContentVersion {
             joinColumns = @JoinColumn(name = "version_id")
     )
     @Cascade(CascadeType.ALL)
-    private Set<ContentAttribute> contentAttributes = new HashSet<>();
+    private List<ContentAttribute> contentAttributeList;
 
     private LocalDateTime createdTime;
 
     private LocalDateTime updatedTime;
+
+    public ContentVersion(Content content, List<ContentAttribute> contentAttributeList) {
+        this.content = content;
+        this.contentAttributeList = contentAttributeList;
+    }
+
+    public ContentVersion create() {
+        this.version = 1L;
+        this.status = ContentStatus.DRAFT;
+        this.createdTime = LocalDateTime.now();
+        this.updatedTime = LocalDateTime.now();
+        this.updateName();
+        return this;
+    }
+
+    public void update(List<ContentAttribute> contentAttributeList) {
+        this.version++;
+        this.contentAttributeList = contentAttributeList;
+        this.updateName();
+        this.updatedTime = LocalDateTime.now();
+    }
+
+    private void updateName() {
+        this.contentAttributeList.stream()
+                .filter(contentAttribute -> "name".equals(contentAttribute.getAttributeKey()))
+                .findAny()
+                .ifPresent(contentAttribute -> this.name = contentAttribute.getAttributeValue());
+    }
 }
