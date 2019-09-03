@@ -6,10 +6,14 @@ Contract.make {
     description "should return all contents"
     request{
         method GET()
-        url("/api/contents") {}
+        url("/api/contents/1")
     }
     response {
-        body([])
+        body(
+                id: 1,
+                name: "this is title",
+                status: "DRAFT"
+        )
         status 200
     }
 }

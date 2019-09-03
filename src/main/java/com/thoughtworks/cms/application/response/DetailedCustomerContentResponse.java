@@ -27,8 +27,8 @@ public class DetailedCustomerContentResponse {
 
         @Override
         protected void configure() {
-            map().setName(source.getDraft().getName());
-            map().setContentAttributeList(source.getPublish().getContentAttributeList());
+            map().setName(source.mustGetPublished().getName());
+            map().setContentAttributeList(source.mustGetPublished().getContentAttributeList());
         }
     };
 

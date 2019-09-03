@@ -1,0 +1,27 @@
+package com.thoughtworks.cms.fixture;
+
+import com.thoughtworks.cms.domain.ContentAttribute;
+
+public class ContentAttributeFixture {
+
+    private ContentAttribute contentAttribute = new ContentAttribute();
+
+    public ContentAttributeFixture withKey(String key) {
+        contentAttribute.setKey(key);
+        return this;
+    }
+
+    public ContentAttributeFixture withValue(String value) {
+        contentAttribute.setKey(value);
+        return this;
+    }
+
+    public ContentAttributeFixture withType(String type) {
+        contentAttribute.setKey(type);
+        return this;
+    }
+
+    public ContentAttribute build() {
+        return contentAttribute;
+    }
+}

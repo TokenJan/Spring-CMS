@@ -2,14 +2,17 @@ package com.thoughtworks.cms.adapter.controller;
 
 import com.thoughtworks.cms.application.command.CreateContentCommand;
 import com.thoughtworks.cms.application.command.EditContentCommand;
-import com.thoughtworks.cms.domain.Content;
 import com.thoughtworks.cms.application.response.DetailedAdminContentResponse;
 import com.thoughtworks.cms.application.response.DetailedCustomerContentResponse;
 import com.thoughtworks.cms.application.response.SimpleContentResponse;
 import com.thoughtworks.cms.application.service.ContentService;
+import com.thoughtworks.cms.domain.Content;
 import com.thoughtworks.cms.utils.ModelMapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/contents")
@@ -38,11 +38,9 @@ public class ContentController {
     }
 
     @GetMapping
-    public List<SimpleContentResponse> getAllContents() {
-        List<Content> contents = contentService.getAll();
-        return contents.stream()
-                .map(content -> modelMapper.map(content, SimpleContentResponse.class))
-                .collect(Collectors.toList());
+    public Page<SimpleContentResponse> getAllContents(@PageableDefault Pageable pageable) {
+        Page<Content> contents = contentService.getAll(pageable);
+        return contents.map(content -> modelMapper.map(content, SimpleContentResponse.class));
     }
 
     @GetMapping("/{id}")

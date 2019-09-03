@@ -30,8 +30,8 @@ public class DetailedAdminContentResponse {
 
         @Override
         protected void configure() {
-            map().setName(source.getDraft().getName());
-            map().setContentAttributeList(source.getDraft().getContentAttributeList());
+            map().setName(source.mustGetDraft().getName());
+            map().setContentAttributeList(source.mustGetDraft().getContentAttributeList());
         }
     };
 
@@ -39,8 +39,8 @@ public class DetailedAdminContentResponse {
 
         @Override
         protected void configure() {
-            map().setName(source.getPublish().getName());
-            map().setContentAttributeList(source.getPublish().getContentAttributeList());
+            map().setName(source.mustGetPublished().getName());
+            map().setContentAttributeList(source.mustGetPublished().getContentAttributeList());
         }
     };
 }

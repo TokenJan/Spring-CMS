@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -61,7 +62,7 @@ public class Content {
 
     public void update(List<ContentAttribute> contentAttributeList) {
         this.updatedTime = LocalDateTime.now();
-        this.getDraft().update(contentAttributeList);
+        this.mustGetDraft().update(contentAttributeList);
         if (ContentStatus.PUBLISHED.equals(this.getStatus())) {
             this.setStatus(ContentStatus.CHANGED);
         }
@@ -70,15 +71,16 @@ public class Content {
     public void publish() {
         this.setStatus(ContentStatus.PUBLISHED);
         this.setUpdatedTime(LocalDateTime.now());
-        List<ContentAttribute> contentAttributeList = populateContentAttributeList(this.getDraft().getContentAttributeList());
+        this.getOptionalPublished().ifPresent(publishedContent -> publishedContent.setStatus(ContentStatus.ACHIVED));
+        List<ContentAttribute> contentAttributeList = populateContentAttributeList(this.mustGetDraft().getContentAttributeList());
         ContentVersion contentVersion = new ContentVersion(this, contentAttributeList).create();
         contentVersion.setStatus(ContentStatus.PUBLISHED);
         this.getContentVersion().add(contentVersion);
     }
 
     public void discard() {
-        List<ContentAttribute> contentAttributeList = populateContentAttributeList(this.getPublish().getContentAttributeList());
-        this.getDraft().update(contentAttributeList);
+        List<ContentAttribute> contentAttributeList = populateContentAttributeList(this.mustGetPublished().getContentAttributeList());
+        this.mustGetDraft().update(contentAttributeList);
         this.updatedTime = LocalDateTime.now();
         this.status = ContentStatus.PUBLISHED;
     }
@@ -88,18 +90,24 @@ public class Content {
         this.updatedTime = LocalDateTime.now();
     }
 
-    public ContentVersion getDraft() {
+    public ContentVersion mustGetDraft() {
         return this.getContentVersion().stream()
                 .filter(contentVersion -> ContentStatus.DRAFT.equals(contentVersion.getStatus()))
                 .findFirst()
                 .orElseThrow(() -> new DraftNotFoundException(this.getId()));
     }
 
-    public ContentVersion getPublish() {
+    public ContentVersion mustGetPublished() {
         return this.getContentVersion().stream()
                 .filter(contentVersion -> ContentStatus.PUBLISHED.equals(contentVersion.getStatus()))
                 .findFirst()
                 .orElseThrow(() -> new PublishNotFoundException(this.getId()));
+    }
+
+    private Optional<ContentVersion> getOptionalPublished() {
+        return this.getContentVersion().stream()
+                .filter(contentVersion -> ContentStatus.PUBLISHED.equals(contentVersion.getStatus()))
+                .findFirst();
     }
 
     private List<ContentAttribute> populateContentAttributeList(List<ContentAttribute> contentAttributeList) {

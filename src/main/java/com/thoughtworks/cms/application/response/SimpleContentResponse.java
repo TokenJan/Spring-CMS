@@ -26,7 +26,7 @@ public class SimpleContentResponse {
 
         @Override
         protected void configure() {
-            map().setName(source.getDraft().getName());
+            map().setName(source.mustGetDraft().getName());
         }
     };
 }

@@ -58,6 +58,12 @@
             <version>2.1.1.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.hippoom</groupId>
+            <artifactId>wiremock-contract-verifier</artifactId>
+            <version>0.3.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
