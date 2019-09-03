@@ -12,9 +12,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ContentAttribute {
 
-    private String attributeKey;
+    private String key;
 
-    private String attributeValue;
+    private String value;
 
-    private String attributeType;
+    private String type;
 }

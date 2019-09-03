@@ -1,4 +1,4 @@
-package com.thoughtworks.cms.command;
+package com.thoughtworks.cms.application.command;
 
 import lombok.Getter;
 import lombok.Setter;

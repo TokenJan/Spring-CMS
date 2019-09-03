@@ -1,7 +1,7 @@
 package com.thoughtworks.cms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.cms.command.ContentStatus;
+import com.thoughtworks.cms.application.command.ContentStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -80,8 +80,8 @@ public class ContentVersion {
 
     private void updateName() {
         this.contentAttributeList.stream()
-                .filter(contentAttribute -> "name".equals(contentAttribute.getAttributeKey()))
+                .filter(contentAttribute -> "name".equals(contentAttribute.getKey()))
                 .findAny()
-                .ifPresent(contentAttribute -> this.name = contentAttribute.getAttributeValue());
+                .ifPresent(contentAttribute -> this.name = contentAttribute.getValue());
     }
 }

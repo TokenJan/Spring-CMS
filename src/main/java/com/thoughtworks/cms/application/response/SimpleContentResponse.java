@@ -1,17 +1,17 @@
-package com.thoughtworks.cms.dto;
+package com.thoughtworks.cms.application.response;
 
-import com.thoughtworks.cms.command.ContentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.thoughtworks.cms.application.command.ContentStatus;
 import com.thoughtworks.cms.domain.Content;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.PropertyMap;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class SimpleContentDto {
+public class SimpleContentResponse {
 
     private Long id;
 
@@ -19,10 +19,10 @@ public class SimpleContentDto {
 
     private ContentStatus status;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
 
-    public static PropertyMap<Content, SimpleContentDto> ContentToSimpleContentDtoMap = new PropertyMap<Content, SimpleContentDto>() {
+    public static PropertyMap<Content, SimpleContentResponse> ContentToSimpleContentDtoMap = new PropertyMap<Content, SimpleContentResponse>() {
 
         @Override
         protected void configure() {

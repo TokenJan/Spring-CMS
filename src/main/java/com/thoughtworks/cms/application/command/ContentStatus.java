@@ -1,4 +1,4 @@
-package com.thoughtworks.cms.command;
+package com.thoughtworks.cms.application.command;
 
 public enum ContentStatus {
     DRAFT,

@@ -1,6 +1,6 @@
-package com.thoughtworks.cms.repository;
+package com.thoughtworks.cms.adapter.persistence;
 
-import com.thoughtworks.cms.command.ContentStatus;
+import com.thoughtworks.cms.application.command.ContentStatus;
 import com.thoughtworks.cms.domain.Content;
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,13 +1,15 @@
 package com.thoughtworks.cms.domain;
 
-import com.thoughtworks.cms.command.ContentStatus;
+import com.thoughtworks.cms.application.command.ContentStatus;
 import com.thoughtworks.cms.exception.DraftNotFoundException;
 import com.thoughtworks.cms.exception.PublishNotFoundException;
+import com.thoughtworks.cms.utils.ModelMapperUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -101,14 +103,10 @@ public class Content {
     }
 
     private List<ContentAttribute> populateContentAttributeList(List<ContentAttribute> contentAttributeList) {
+        ModelMapper modelMapper = ModelMapperUtil.getModelMapper();
         List<ContentAttribute> newContentAttributeList = new ArrayList<>();
-        contentAttributeList.forEach(attribute -> {
-            ContentAttribute contentAttribute = new ContentAttribute();
-            contentAttribute.setAttributeType(attribute.getAttributeType());
-            contentAttribute.setAttributeKey(attribute.getAttributeKey());
-            contentAttribute.setAttributeValue(attribute.getAttributeValue());
-            newContentAttributeList.add(contentAttribute);
-        });
+        contentAttributeList.forEach(attribute ->
+            newContentAttributeList.add(modelMapper.map(attribute, ContentAttribute.class)));
         return newContentAttributeList;
     }
 }

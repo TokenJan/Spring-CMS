@@ -1,19 +1,19 @@
-package com.thoughtworks.cms.dto;
+package com.thoughtworks.cms.application.response;
 
-import com.thoughtworks.cms.command.ContentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.thoughtworks.cms.application.command.ContentStatus;
 import com.thoughtworks.cms.domain.Content;
 import com.thoughtworks.cms.domain.ContentAttribute;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.PropertyMap;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
-public class DetailedContentDto {
+public class DetailedAdminContentResponse {
 
     private Long id;
 
@@ -23,10 +23,10 @@ public class DetailedContentDto {
 
     private List<ContentAttribute> contentAttributeList;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
 
-    public static PropertyMap<Content, DetailedContentDto> AdminDetailedContentDtoMap = new PropertyMap<Content, DetailedContentDto>() {
+    public static PropertyMap<Content, DetailedAdminContentResponse> DetailedAdminContentDtoMap = new PropertyMap<Content, DetailedAdminContentResponse>() {
 
         @Override
         protected void configure() {
@@ -35,7 +35,7 @@ public class DetailedContentDto {
         }
     };
 
-    public static PropertyMap<Content, DetailedContentDto> CustomerDetailedContentDtoMap = new PropertyMap<Content, DetailedContentDto>() {
+    public static PropertyMap<Content, DetailedAdminContentResponse> CustomerDetailedContentDtoMap = new PropertyMap<Content, DetailedAdminContentResponse>() {
 
         @Override
         protected void configure() {

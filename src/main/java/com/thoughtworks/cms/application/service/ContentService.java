@@ -1,16 +1,18 @@
-package com.thoughtworks.cms.service;
+package com.thoughtworks.cms.application.service;
 
-import com.thoughtworks.cms.command.AbstractContentCommand;
-import com.thoughtworks.cms.command.ContentStatus;
-import com.thoughtworks.cms.command.CreateContentCommand;
-import com.thoughtworks.cms.command.EditContentCommand;
+import com.thoughtworks.cms.application.command.AbstractContentCommand;
+import com.thoughtworks.cms.application.command.ContentStatus;
+import com.thoughtworks.cms.application.command.CreateContentCommand;
+import com.thoughtworks.cms.application.command.EditContentCommand;
 import com.thoughtworks.cms.domain.Content;
 import com.thoughtworks.cms.domain.ContentAttribute;
 import com.thoughtworks.cms.exception.ContentNotFoundException;
-import com.thoughtworks.cms.repository.ContentRepository;
+import com.thoughtworks.cms.adapter.persistence.ContentRepository;
+import com.thoughtworks.cms.utils.ModelMapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hibernate.exception.DataException;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ import java.util.List;
 public class ContentService {
 
     private final ContentRepository contentRepository;
+
+    private final ModelMapper modelMapper = ModelMapperUtil.getModelMapper();
 
     @Transactional(rollbackFor = DataException.class)
     public Content create(CreateContentCommand createContentCommand) {
@@ -82,13 +86,8 @@ public class ContentService {
 
     private List<ContentAttribute> populateContentAttributeList(AbstractContentCommand contentCommand) {
         List<ContentAttribute> contentAttributeList = new ArrayList<>();
-        contentCommand.getAttributes().forEach(attribute -> {
-            ContentAttribute contentAttribute = new ContentAttribute();
-            contentAttribute.setAttributeType(attribute.getType());
-            contentAttribute.setAttributeKey(attribute.getKey());
-            contentAttribute.setAttributeValue(attribute.getValue());
-            contentAttributeList.add(contentAttribute);
-        });
+        contentCommand.getAttributes().forEach(attribute ->
+            contentAttributeList.add(modelMapper.map(attribute, ContentAttribute.class)));
         return contentAttributeList;
     }
 
