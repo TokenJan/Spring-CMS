@@ -1,11 +1,14 @@
 package com.thoughtworks.cms.contracts;
 
 import com.thoughtworks.cms.CmsApplication;
+import com.thoughtworks.cms.adapter.controller.ContentModelController;
+import com.thoughtworks.cms.adapter.persistence.ContentModelRepository;
 import com.thoughtworks.cms.adapter.persistence.ContentRepository;
 import com.thoughtworks.cms.application.command.ContentStatus;
 import com.thoughtworks.cms.application.service.ContentService;
 import com.thoughtworks.cms.domain.Content;
 import com.thoughtworks.cms.domain.ContentAttribute;
+import com.thoughtworks.cms.domain.ContentModel;
 import com.thoughtworks.cms.domain.ContentVersion;
 import com.thoughtworks.cms.fixture.ContentAttributeFixture;
 import com.thoughtworks.cms.fixture.ContentFixture;
@@ -38,6 +41,12 @@ public class BaseTestClass {
 
     @MockBean
     private ContentService contentService;
+
+    @MockBean
+    private ContentModelController contentModelController;
+
+    @MockBean
+    private ContentModelRepository contentModelRepository;
 
     @MockBean
     private ContentRepository contentRepository;
