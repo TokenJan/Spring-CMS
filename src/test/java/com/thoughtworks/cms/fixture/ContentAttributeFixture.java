@@ -12,12 +12,12 @@ public class ContentAttributeFixture {
     }
 
     public ContentAttributeFixture withValue(String value) {
-        contentAttribute.setKey(value);
+        contentAttribute.setValue(value);
         return this;
     }
 
     public ContentAttributeFixture withType(String type) {
-        contentAttribute.setKey(type);
+        contentAttribute.setType(type);
         return this;
     }
 
