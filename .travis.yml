@@ -1,1 +1,3 @@
-language: Java
+language: java
+jdk: oraclejdk8
+before_script: cd cms-backend
